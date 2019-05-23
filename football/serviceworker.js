@@ -1,5 +1,6 @@
 ﻿console.log("This is service worker talking!");
-var cacheName = 'blazor-pwa-sample';
+
+var cacheName = 'blazor-pwa-sample-v8';
 var filesToCache = [
     './',
     //Html and css files
@@ -47,13 +48,37 @@ self.addEventListener('install', function (e) {
 });
 
 self.addEventListener('activate', event => {
-    event.waitUntil(self.clients.claim());
+    event.waitUntil(
+        // https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim
+        // self.clients.claim();
+        // This ensures we have only the files we need in the cache, so we don't leave any garbage behind
+        caches.keys().then(function (keyList) {
+            return Promise.all(keyList.map(function (key) {
+                if (cacheName.indexOf(key) === -1) { return caches.delete(key); }
+            }));
+        }
+    ));
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', function (event) {
+    //event.respondWith(
+    //    caches.match(event.request).then(function (r) {
+    //        console.log('[Service Worker] Fetching resource: ' + event.request.url);
+    //        return r || fetch(event.request).then(function (response) {
+    //            return caches.open(cacheName).then(function (cache) {
+    //                if (event.request.url.indexOf('http') !== -1) {
+    //                    console.log('[Service Worker] Caching new resource: ' + event.request.url);
+    //                    cache.put(event.request, response.clone());
+    //                }
+    //                return response;
+    //            });
+    //        });
+    //    })
+    //);
     event.respondWith(
-        caches.match(event.request, { ignoreSearch: true }).then(response => {
-            return response || fetch(event.request);
+        caches.match(event.request).then(function (r) {
+            console.log('[Service Worker] Fetching resource: ' + event.request.url);
+            return r || fetch(event.request);
         })
     );
 });
