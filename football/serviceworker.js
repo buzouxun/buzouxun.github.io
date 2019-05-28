@@ -1,6 +1,6 @@
 ﻿console.log("This is service worker talking!");
 
-var cacheName = 'blazor-pwa-sample-v8';
+var cacheName = 'blazor-pwa-sample-v10';
 var filesToCache = [
     './',
     //Html and css files
@@ -20,6 +20,7 @@ var filesToCache = [
     //The web assembly/.net dll's
     './_framework/wasm/mono.js',
     './_framework/wasm/mono.wasm',
+    './_framework/_bin/HtmlAgilityPack.NetCore.dll',
     './_framework/_bin/Microsoft.AspNetCore.Blazor.dll',
     './_framework/_bin/Microsoft.AspNetCore.Components.Browser.dll',
     './_framework/_bin/Microsoft.AspNetCore.Components.dll',
@@ -32,7 +33,14 @@ var filesToCache = [
     './_framework/_bin/System.ComponentModel.Annotations.dll',
     './_framework/_bin/System.Core.dll',
     './_framework/_bin/System.dll',
+    './_framework/_bin/System.IO.FileSystem.Primitives.dll',
+    './_framework/_bin/System.Linq.dll',
     './_framework/_bin/System.Net.Http.dll',
+    './_framework/_bin/System.Text.RegularExpressions.dll',
+    './_framework/_bin/System.Threading.dll',
+    './_framework/_bin/System.Threading.Tasks.Extensions.dll',
+    './_framework/_bin/System.System.Xml.ReaderWriter.dll',
+    './_framework/_bin/System.System.Xml.XPath.dll',
     //The compiled project .dll's
     './_framework/_bin/blazor2.dll'
 ];
