@@ -1,6 +1,6 @@
 ﻿console.log("This is service worker talking!");
 
-var cacheName = 'blazor-pwa-sample-v12';
+var cacheName = 'blazor-pwa-sample-v13';
 var filesToCache = [
     './',
     //Html and css files
