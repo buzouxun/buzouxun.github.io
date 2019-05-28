@@ -1,6 +1,6 @@
 ﻿console.log("This is service worker talking!");
 
-var cacheName = 'blazor-pwa-sample-v10';
+var cacheName = 'blazor-pwa-sample-v11';
 var filesToCache = [
     './',
     //Html and css files
@@ -39,8 +39,8 @@ var filesToCache = [
     './_framework/_bin/System.Text.RegularExpressions.dll',
     './_framework/_bin/System.Threading.dll',
     './_framework/_bin/System.Threading.Tasks.Extensions.dll',
-    './_framework/_bin/System.System.Xml.ReaderWriter.dll',
-    './_framework/_bin/System.System.Xml.XPath.dll',
+    './_framework/_bin/System.Xml.ReaderWriter.dll',
+    './_framework/_bin/System.Xml.XPath.dll',
     //The compiled project .dll's
     './_framework/_bin/blazor2.dll'
 ];
