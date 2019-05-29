@@ -1,6 +1,6 @@
 ﻿console.log("This is service worker talking!");
 
-var cacheName = 'blazor-pwa-sample-v14';
+var cacheName = 'blazor-pwa-sample-v15';
 var filesToCache = [
     './',
     //Html and css files
@@ -12,6 +12,7 @@ var filesToCache = [
     //Blazor framework
     './_framework/blazor.webassembly.js',
     './_framework/blazor.boot.json',
+    './_framework/blazor.server.js',
     //Our additional files
     './manifest.json',
     './serviceworker.js',
@@ -65,28 +66,28 @@ self.addEventListener('activate', event => {
                 if (cacheName.indexOf(key) === -1) { return caches.delete(key); }
             }));
         }
-    ));
+        ));
 });
 
 self.addEventListener('fetch', function (event) {
-    //event.respondWith(
-    //    caches.match(event.request).then(function (r) {
-    //        console.log('[Service Worker] Fetching resource: ' + event.request.url);
-    //        return r || fetch(event.request).then(function (response) {
-    //            return caches.open(cacheName).then(function (cache) {
-    //                if (event.request.url.indexOf('http') !== -1) {
-    //                    console.log('[Service Worker] Caching new resource: ' + event.request.url);
-    //                    cache.put(event.request, response.clone());
-    //                }
-    //                return response;
-    //            });
-    //        });
-    //    })
-    //);
     event.respondWith(
         caches.match(event.request).then(function (r) {
             console.log('[Service Worker] Fetching resource: ' + event.request.url);
-            return r || fetch(event.request);
+            return r || fetch(event.request).then(function (response) {
+                return caches.open(cacheName).then(function (cache) {
+                    if (event.request.url.indexOf('http') !== -1) {
+                        console.log('[Service Worker] Caching new resource: ' + event.request.url);
+                        cache.put(event.request, response.clone());
+                    }
+                    return response;
+                });
+            });
         })
     );
+    //event.respondWith(
+    //    caches.match(event.request).then(function (r) {
+    //        console.log('[Service Worker] Fetching resource: ' + event.request.url);
+    //        return r || fetch(event.request);
+    //    })
+    //);
 });
